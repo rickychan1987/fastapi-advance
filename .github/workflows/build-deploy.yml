@@ -71,7 +71,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: [build]
-    environment: #new
+    environment:
       name: production #this is new environment in github settings
     steps:
       - name: pulling git repo
@@ -82,3 +82,14 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
           heroku_email: ${{secrets.HEROKUEMAIL}}
+
+      - name: deploy to centos 7 server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USERNAME }}
+          key: ${{ secrets.PROD_KEY }}
+          scripts: |
+            cd app/src
+            git pull
+            echo ${{ secrets.PROD_KEY }} | sudo -S systemctl restart fastapi
