@@ -27,4 +27,4 @@ app.include_router(auth.router, tags=['Authentication'])
 
 @app.get('/')
 async def root():
-    return {"message": "Welcome to Ricky API"}
+    return {"message": "Sucessfully Github CI/CD to Heroku"}
